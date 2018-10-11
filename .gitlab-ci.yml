@@ -15,11 +15,12 @@ stages:
 gke-cluster:
   image: atulabhi/kops:v8
   stage: CLUSTER-SETUP 
-  script: 
+  script:
+    - chmod 775 ./script/gke      
     - ./script/gke
   artifacts:
     paths:
-      - gke/
+      - .kube/
 
 ## Setup OpenEBS control plane
 
@@ -29,10 +30,11 @@ openebs-gke-deploy:
   dependencies:
     - gke-cluster
   script: 
+   - chmod 775 ./script/provider/infra-setup
    - ./script/provider/infra-setup
   artifacts:
     paths:
-      - gke-openebs/
+      - .kube-openebs/
 
 ## Define a job template for app deployers
 
@@ -43,7 +45,7 @@ openebs-gke-deploy:
     - openebs-gke-deploy
   artifacts:
     paths: 
-      - gke-openebs/
+     - .kube-openebs/
 
 ## Define the app deployer jobs
 
@@ -139,7 +141,7 @@ mongo-cstor-run/load/check 1:2:
   when: always 
   artifacts:
     paths: 
-      - gke-openebs/
+      - .kube-openebs/
 
 app-replica-scale-{cassandra-jiva}:
   extends: .func_test_template #dependencies: cassandra-jiva
@@ -164,7 +166,7 @@ volume-data-integrity-{fio-jiva}:
   when: always 
   artifacts:
     paths: 
-      - gke-openebs/
+      - .kube-openebs/
 
 repl-kill-{percona-jiva}:
   extends: .chaos_test_template #dependencies: percona-jiva
