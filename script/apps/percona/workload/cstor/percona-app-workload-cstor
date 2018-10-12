@@ -46,8 +46,10 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "%"
 echo "Setting up test dependencies.."
 
 mkdir ~/.kube
-cp  gke-openebs/config ~/.kube/config
-cp -r gke-openebs/ssh/. ~/.ssh/
+cp .kube-openebs/config ~/.kube/config
+mkdir ~/logs
+cp .kube-openebs/clusters ~/logs
+
 
 ## Clone the litmus repo, checkout the e2e branch, navigate to litmus root 
 
