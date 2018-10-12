@@ -13,14 +13,13 @@ export GKEUSER=`echo $GKE_USER`
 # cd litmus/
 
 # git checkout v0.7-RC1
-# clone repository
-#git clone https://github.com/openebs/litmus.git
-git clone https://github.com/vibhor995/litmus.git
-cd litmus; git checkout gke
+# 
+git clone https://github.com/openebs/litmus.git
+cd litmus/k8s/gke/k8s-installer/
 
 echo "creating cluster"
 
-ansible-playbook k8s/gke/k8s-installer/create-gke-cluster.yml -vv
+ansible-playbook create-gke-cluster.yml -vv
 
 mkdir /openebs/e2e-gke/.kube
 cat ~/.kube/config > /openebs/e2e-gke/.kube/config
